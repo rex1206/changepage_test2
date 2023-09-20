@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单的键盘监听器</title>
+</head>
+<body>
+    <h1>键盘监听器</h1>
+    <p>在文本框中输入文本，它将在下面显示：</p>
+    
+    <input type="text" id="textInput">
+    <div id="displayText"></div>
+    
+    <script>
+        // 获取输入框和显示文本的元素
+        var inputElement = document.getElementById("textInput");
+        var displayElement = document.getElementById("displayText");
+
+        // 监听键盘输入事件
+        inputElement.addEventListener("keyup", function(event) {
+            // 获取输入框中的文本
+            var text = inputElement.value;
+
+            // 将文本显示在页面上
+            displayElement.textContent = "你输入的文本是：" + text;
+        });
+    </script>
+</body>
+</html>
