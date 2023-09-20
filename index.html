@@ -3,23 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>简单的键盘监听器</title>
+    <title>我的個人網站(持續建設中)</title>
 </head>
 <body>
-    <h1>键盘监听器</h1>
-<textarea id="key"></textarea>
-<script>
-    var key = document.getElementById("key");
-    key.onkeydown =f;  //註冊keydown事件處理函數
-    key.onkeyup = f;  //註冊keyup事件處理函數
-    key.onkeypress = f;  //註冊keypress事件處理函數
-    function f (e) {
-        var e = e || window.event;  //標準化事件處理
-        var s = e.type + " " + e.keyCode;  //獲取鍵盤事件類型和按下的值
-        key.value = s;
-    }
-</script>
+    <h1>歡迎來到我的個人網站</h1>
+    <p>這個網站正在持續建設中，敬請期待！</p>
+    
+    <h2>社交媒體連結：</h2>
+    <ul>
+        <li><a href="https://www.instagram.com/rex1206/">Instagram</a></li>
+        <li><a href="https://www.youtube.com/@Dr.fox66">YouTube</a></li>
+    </ul>
+    <div id="displayText"></div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script>
+        // 解密
+        function decryptText(encryptedText, secretKey) {
+            var decrypted = CryptoJS.AES.decrypt(encryptedText, secretKey);
+            return decrypted.toString(CryptoJS.enc.Utf8);
+        }
+        
+        function handleInput(rec) {
+            // 進行SHA-256加密
+            var sha256 = new TextEncoder().encode(rec);
+            crypto.subtle.digest('SHA-256', sha256).then(function(hash) {
+                var hashArray = Array.from(new Uint8Array(hash));
+                var hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+                var hashHex_1 = hashHex.substring(0, 58); // 前56個字元
+                var hashHex_2 = hashHex.substring(58);    // 剩餘的字元
+                // 比對加密後的值是否等於目標值
+                if (hashHex_1 === '2a6c3479b6f158ab681b6f4880efd2269d5e6ec43012df3a662042fa2e') {
+                    var decryptedText = decryptText('U2FsdGVkX18/n7+zOjGU73Hi4GJTzSLrx68FDnn2evwyptzmIPOleQATWG0utc+kZVNKStzJWX9yBksAqWE8kbunftVov+7p0Xctc93WjX8uIngTTb9fgcYQlvpFRYy1JpEakNIGGLviA2+dHgCCwmrO9QFvphnA2BKHi997+Fs=', hashHex_2);
+                    window.location.href = decryptedText;
+                }
+            });
+        }
+        
+        function Listener(e) {
+            rec += String.fromCharCode(e.keyCode);
+            if (rec.length > 6) {
+                rec = rec.substr(rec.length - 6);
+            }
+            handleInput(rec)
+        }
 
-
+        var rec = ''
+        var body = document.body;
+        body.addEventListener('keydown', Listener, false);
+    </script>
 </body>
 </html>
